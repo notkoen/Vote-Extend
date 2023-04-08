@@ -76,12 +76,12 @@ public Action Command_Extend(int client, int args)
 		
 		if (time > 0)
 		{
-			CShowActivity2(client, "", " \x04[Extend] \x01Extended map time by \x04%d \x01minutes!", time);
+			ShowActivity2(client, "", " \x04[Extend] \x01Extended map time by \x04%d \x01minutes!", time);
 			LogAction(client, -1, "\"%L\" Extended map time by %d minutes", client, time);
 		}
 		else
 		{
-			CShowActivity2(client, "", " \x04[Extend] \x01Shortened map time by \x04%d \x01minutes!", time);
+			ShowActivity2(client, "", " \x04[Extend] \x01Shortened map time by \x04%d \x01minutes!", time);
 			LogAction(client, -1, "\"%L\" Shortened map time by %d minutes", client, time);
 		}
 	}
