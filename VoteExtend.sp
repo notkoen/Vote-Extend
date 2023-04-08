@@ -62,7 +62,7 @@ public Action Command_Extend(int client, int args)
 	
 	if (args < 1)
 	{
-		CReplyToCommand(client, " \x04[Extend] \x01Usage: sm_extend <minutes> - Extend/shorten map time");
+		ReplyToCommand(client, " \x04[Extend] \x01Usage: sm_extend <minutes> - Extend/shorten map time");
 		return Plugin_Handled;
 	}
 	
@@ -95,20 +95,20 @@ public Action Command_VoteExtend(int client, int args)
 	
 	if (IsVoteInProgress())
 	{
-		CReplyToCommand(client, " \x04[Extend] \x01Please wait until the current vote has finished.");
+		ReplyToCommand(client, " \x04[Extend] \x01Please wait until the current vote has finished.");
 		return Plugin_Handled;
 	}
 
 	if (g_iExtends >= g_cvMaxExtends.IntValue)
 	{
-		CReplyToCommand(client, " \x04[Extend] \x01Maximum number of extends reached for this map.");
+		ReplyToCommand(client, " \x04[Extend] \x01Maximum number of extends reached for this map.");
 		return Plugin_Handled;
 	}
 
 	// If 1 extend has already been called, assume it was called by a junior/senior admin so do a check
 	if (g_iExtends == 1 && !CheckCommandAccess(client, "", ADMFLAG_UNBAN))
 	{
-		CReplyToCommand(client, " \x04[Extend] \x01You have already used up the admin extend for this map. Ask head admin or server manager for more");
+		ReplyToCommand(client, " \x04[Extend] \x01You have already used up the admin extend for this map. Ask head admin or server manager for more");
 		return Plugin_Handled;
 	}
 	
@@ -127,7 +127,7 @@ public void StartVoteExtend(int client)
 	else
 		minPercentage = g_cvMinPercentage.FloatValue;
 	
-	CPrintToChatAll(" \x04[Extend] \x01Vote to extend for \x04%d \x01minutes started by \x10%N", g_cvExtendTime.IntValue, client);
+	PrintToChatAll(" \x04[Extend] \x01Vote to extend for \x04%d \x01minutes started by \x10%N", g_cvExtendTime.IntValue, client);
 	g_iExtends++; // Increment the total number of vote extends so far
 
 	Menu voteExtend = CreateMenu(H_VoteExtend);
@@ -164,11 +164,11 @@ public void H_VoteExtendCallback(Menu menu, int num_votes, int num_clients, cons
 
 	if (voteRatio > minPercentage)
 	{
-		CPrintToChatAll(" \x04[Extend] \x01Vote to extend succeeded, map extended for \x04%d\x01 minutes. (Received \x04%d \x01of \x04%d \x01votes)", g_cvExtendTime.IntValue, votesYes, num_votes);
+		PrintToChatAll(" \x04[Extend] \x01Vote to extend succeeded, map extended for \x04%d\x01 minutes. (Received \x04%d \x01of \x04%d \x01votes)", g_cvExtendTime.IntValue, votesYes, num_votes);
 		ExtendMapTimeLimit(RoundToFloor(GetConVarFloat(g_cvExtendTime) * 60));
 	}
 	else
-		CPrintToChatAll(" \x04[Extend] \x01Vote to extend failed. (Receieved \x04%d \x01of \x04%d \x01votes)", votesYes, num_votes);
+		PrintToChatAll(" \x04[Extend] \x01Vote to extend failed. (Receieved \x04%d \x01of \x04%d \x01votes)", votesYes, num_votes);
 }
 
 public int H_VoteExtend(Menu tMenu, MenuAction action, int client, int item)
